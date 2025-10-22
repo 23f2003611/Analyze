@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Processing App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Processing Application</h1>
+        <button id="runButton" class="btn btn-primary">Run Script</button>
+        <div id="result" class="alert alert-info" style="display:none;"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#runButton').click(function() {
+                $('#result').hide().text('Running script...').removeClass('alert-info').addClass('alert-warning').show();
+                fetch('/path/to/your/execute') // Update with the correct path to your server endpoint
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#result').text(JSON.stringify(data, null, 2)).removeClass('alert-warning').addClass('alert-success').show();
+                        hljs.highlightBlock(document.getElementById('result'));
+                    })
+                    .catch(error => {
+                        $('#result').text('Error: ' + error).removeClass('alert-warning').addClass('alert-danger').show();
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
